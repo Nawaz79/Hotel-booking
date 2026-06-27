@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lumière Hotels — Find Your Perfect Stay</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #B8975A;
+    --gold-light: #F5EDDA;
+    --gold-dark: #8C6E38;
+    --ink: #1A1714;
+    --ink-soft: #3D3730;
+    --stone: #7A7168;
+    --fog: #F0EDE8;
+    --white: #FDFCFA;
+    --radius-sm: 6px;
+    --radius-md: 12px;
+    --radius-lg: 20px;
+    --shadow-card: 0 2px 16px rgba(26,23,20,0.10);
+    --shadow-hover: 0 8px 40px rgba(26,23,20,0.18);
+    --font-display: 'Cormorant Garamond', Georgia, serif;
+    --font-body: 'Inter', system-ui, sans-serif;
+  }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--white);
+    color: var(--ink);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 40px; height: 64px;
+    background: rgba(253,252,250,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(184,151,90,0.18);
+  }
+  .nav-logo {
+    font-family: var(--font-display);
+    font-size: 24px; font-weight: 600; color: var(--ink);
+    letter-spacing: 0.04em; text-decoration: none;
+  }
+  .nav-logo span { color: var(--gold); }
+  .nav-links { display: flex; gap: 32px; align-items: center; }
+  .nav-links a {
+    font-size: 13px; font-weight: 500; color: var(--stone);
+    text-decoration: none; letter-spacing: 0.06em; text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .btn-nav {
+    background: var(--gold); color: white; border: none;
+    padding: 9px 22px; border-radius: var(--radius-sm);
+    font-size: 13px; font-weight: 500; cursor: pointer; transition: background 0.2s;
+  }
+  .btn-nav:hover { background: var(--gold-dark); }
+
+  .hero {
+    position: relative; height: 100vh; min-height: 640px;
+    display: flex; align-items: center; justify-content: center; overflow: hidden;
+  }
+  .hero-img {
+    position: absolute; inset: 0;
+    background: url('https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=1800&q=80') center/cover no-repeat;
+  }
+  .hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to bottom, rgba(26,23,20,0.38) 0%, rgba(26,23,20,0.60) 60%, rgba(26,23,20,0.80) 100%);
+  }
+  .hero-content {
+    position: relative; text-align: center; color: white;
+    padding: 0 24px; max-width: 860px;
+  }
+  .hero-eyebrow {
+    font-size: 12px; font-weight: 500; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 20px;
+  }
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(48px, 7vw, 88px); font-weight: 400;
+    line-height: 1.08; margin-bottom: 20px;
+  }
+  .hero-title em { font-style: italic; color: #F5EDDA; }
+  .hero-sub {
+    font-size: 17px; font-weight: 300; opacity: 0.85;
+    margin-bottom: 48px; max-width: 480px; margin-left: auto; margin-right: auto;
+  }
+
+  .search-box {
+    background: white; border-radius: var(--radius-lg);
+    padding: 20px 24px; display: flex; gap: 0; align-items: stretch;
+    box-shadow: 0 8px 48px rgba(0,0,0,0.28); max-width: 860px; margin: 0 auto;
+  }
+  .search-field {
+    flex: 1; padding: 0 20px; border-right: 1px solid #E8E4DC;
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .search-field:last-of-type { border-right: none; }
+  .search-field label {
+    font-size: 10px; font-weight: 600; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--stone);
+  }
+  .search-field input, .search-field select {
+    border: none; outline: none; font-size: 14px; font-weight: 500;
+    color: var(--ink); background: transparent; font-family: var(--font-body); width: 100%;
+  }
+  .search-btn {
+    background: var(--gold); color: white; border: none;
+    padding: 0 28px; border-radius: var(--radius-md);
+    font-size: 14px; font-weight: 600; cursor: pointer;
+    transition: background 0.2s; white-space: nowrap; margin-left: 12px;
+  }
+  .search-btn:hover { background: var(--gold-dark); }
+
+  section { padding: 80px 40px; max-width: 1280px; margin: 0 auto; }
+  .section-eyebrow {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 4vw, 52px); font-weight: 400;
+    color: var(--ink); line-height: 1.12; margin-bottom: 8px;
+  }
+  .section-sub { font-size: 16px; color: var(--stone); max-width: 520px; }
+  .section-header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 48px; flex-wrap: wrap; gap: 20px;
+  }
+  .link-more {
+    font-size: 13px; font-weight: 500; color: var(--gold);
+    text-decoration: none; letter-spacing: 0.06em; text-transform: uppercase;
+    border-bottom: 1px solid var(--gold); padding-bottom: 2px;
+  }
+  .link-more:hover { color: var(--gold-dark); }
+
+  .filter-bar { display: flex; gap: 10px; margin-bottom: 36px; flex-wrap: wrap; }
+  .filter-btn {
+    padding: 8px 18px; border-radius: 20px;
+    border: 1.5px solid #E0D9CE; background: white;
+    font-size: 13px; font-weight: 500; cursor: pointer; color: var(--stone); transition: all 0.2s;
+  }
+  .filter-btn.active, .filter-btn:hover {
+    border-color: var(--gold); color: var(--gold); background: var(--gold-light);
+  }
+
+  .cards-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 28px;
+  }
+  .hotel-card {
+    background: white; border-radius: var(--radius-lg); overflow: hidden;
+    box-shadow: var(--shadow-card); transition: transform 0.28s ease, box-shadow 0.28s ease; cursor: pointer;
+  }
+  .hotel-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-hover); }
+  .card-img { position: relative; height: 240px; overflow: hidden; }
+  .card-img img {
+    width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;
+  }
+  .hotel-card:hover .card-img img { transform: scale(1.05); }
+  .card-badge {
+    position: absolute; top: 16px; left: 16px;
+    background: var(--ink); color: white;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
+    text-transform: uppercase; padding: 5px 12px; border-radius: 20px;
+  }
+  .card-badge.gold { background: var(--gold); }
+  .card-fav {
+    position: absolute; top: 14px; right: 14px;
+    background: white; border: none; border-radius: 50%;
+    width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); transition: transform 0.2s;
+  }
+  .card-fav:hover { transform: scale(1.1); }
+  .card-body { padding: 20px 22px 22px; }
+  .card-location {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--stone); margin-bottom: 6px;
+  }
+  .card-name {
+    font-family: var(--font-display); font-size: 22px; font-weight: 600;
+    color: var(--ink); margin-bottom: 8px; line-height: 1.2;
+  }
+  .card-stars { color: var(--gold); font-size: 13px; margin-bottom: 10px; }
+  .card-features { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+  .tag {
+    background: var(--fog); color: var(--stone);
+    font-size: 11px; font-weight: 500; padding: 4px 10px; border-radius: 20px;
+  }
+  .card-footer {
+    display: flex; justify-content: space-between; align-items: center;
+    border-top: 1px solid #F0ECE6; padding-top: 16px;
+  }
+  .card-price .amount {
+    font-family: var(--font-display); font-size: 28px; font-weight: 600; color: var(--ink); line-height: 1;
+  }
+  .card-price .per { font-size: 12px; color: var(--stone); margin-top: 2px; }
+  .card-price .was { font-size: 13px; color: var(--stone); text-decoration: line-through; margin-right: 6px; }
+  .card-rating .score {
+    background: var(--gold-light); color: var(--gold-dark);
+    font-size: 14px; font-weight: 700; padding: 6px 10px; border-radius: var(--radius-sm);
+  }
+  .card-rating .reviews { font-size: 11px; color: var(--stone); text-align: right; margin-top: 4px; }
+  .btn-book {
+    background: var(--ink); color: white; border: none;
+    padding: 10px 22px; border-radius: var(--radius-sm);
+    font-size: 13px; font-weight: 500; cursor: pointer; transition: background 0.2s; margin-top: 8px;
+  }
+  .btn-book:hover { background: var(--gold); }
+
+  .destinations-grid {
+    display: grid; grid-template-columns: 2fr 1fr 1fr; grid-template-rows: 280px 280px; gap: 16px;
+  }
+  .dest-card { position: relative; border-radius: var(--radius-lg); overflow: hidden; cursor: pointer; }
+  .dest-card:first-child { grid-row: 1 / 3; }
+  .dest-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+  .dest-card:hover img { transform: scale(1.07); }
+  .dest-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(26,23,20,0.72) 0%, transparent 55%);
+    display: flex; flex-direction: column; justify-content: flex-end; padding: 24px;
+  }
+  .dest-name { font-family: var(--font-display); font-size: 28px; color: white; font-weight: 600; margin-bottom: 4px; }
+  .dest-card:first-child .dest-name { font-size: 40px; }
+  .dest-count { font-size: 13px; color: rgba(255,255,255,0.75); }
+
+  .amenities { background: var(--ink); padding: 56px 40px; }
+  .amenities-inner {
+    max-width: 1280px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(4, 1fr);
+  }
+  .amenity { text-align: center; padding: 0 24px; border-right: 1px solid rgba(255,255,255,0.1); }
+  .amenity:last-child { border-right: none; }
+  .amenity-icon { font-size: 32px; margin-bottom: 12px; }
+  .amenity-label { font-family: var(--font-display); font-size: 20px; color: white; margin-bottom: 6px; }
+  .amenity-desc { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.5; }
+
+  .testimonial-section { background: var(--fog); }
+  .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .testimonial-card { background: white; border-radius: var(--radius-lg); padding: 28px; box-shadow: var(--shadow-card); }
+  .t-stars { color: var(--gold); font-size: 15px; margin-bottom: 14px; }
+  .t-quote { font-family: var(--font-display); font-size: 18px; font-style: italic; color: var(--ink-soft); line-height: 1.5; margin-bottom: 20px; }
+  .t-author { display: flex; align-items: center; gap: 12px; }
+  .t-avatar { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; }
+  .t-name { font-size: 14px; font-weight: 600; color: var(--ink); }
+  .t-sub { font-size: 12px; color: var(--stone); }
+
+  .newsletter { text-align: center; padding: 80px 40px; max-width: 600px; margin: 0 auto; }
+  .newsletter p { color: var(--stone); margin-bottom: 32px; }
+  .nl-form { display: flex; gap: 10px; max-width: 480px; margin: 0 auto; }
+  .nl-form input {
+    flex: 1; padding: 12px 18px; border: 1.5px solid #E0D9CE;
+    border-radius: var(--radius-sm); font-size: 14px; font-family: var(--font-body); outline: none;
+  }
+  .nl-form input:focus { border-color: var(--gold); }
+  .nl-form button {
+    background: var(--gold); color: white; border: none;
+    padding: 12px 24px; border-radius: var(--radius-sm);
+    font-size: 14px; font-weight: 500; cursor: pointer; white-space: nowrap;
+  }
+  .nl-form button:hover { background: var(--gold-dark); }
+
+  footer { background: var(--ink); color: rgba(255,255,255,0.6); padding: 56px 40px 32px; }
+  .footer-inner {
+    max-width: 1280px; margin: 0 auto;
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 40px;
+  }
+  .footer-brand p { font-size: 13px; line-height: 1.7; max-width: 240px; }
+  .footer-col h4 {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.14em;
+    text-transform: uppercase; color: white; margin-bottom: 16px;
+  }
+  .footer-col a {
+    display: block; font-size: 13px; color: rgba(255,255,255,0.5);
+    text-decoration: none; margin-bottom: 10px; transition: color 0.2s;
+  }
+  .footer-col a:hover { color: var(--gold); }
+  .footer-bottom {
+    max-width: 1280px; margin: 0 auto;
+    border-top: 1px solid rgba(255,255,255,0.08); padding-top: 24px;
+    display: flex; justify-content: space-between; font-size: 12px;
+  }
+
+  @media (max-width: 900px) {
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    section { padding: 60px 20px; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .destinations-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+    .dest-card { height: 220px; }
+    .dest-card:first-child { grid-row: auto; }
+    .amenities-inner { grid-template-columns: 1fr 1fr; gap: 32px; }
+    .testimonials-grid { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr 1fr; }
+    .search-box { flex-direction: column; gap: 12px; }
+    .search-field { border-right: none; border-bottom: 1px solid #E8E4DC; padding-bottom: 12px; }
+    .search-btn { margin-left: 0; padding: 14px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="#">Lumi<span>è</span>re</a>
+  <div class="nav-links">
+    <a href="#">Destinations</a>
+    <a href="#">Hotels</a>
+    <a href="#">Experiences</a>
+    <a href="#">Offers</a>
+    <button class="btn-nav">Sign in</button>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-img"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Curated luxury stays worldwide</p>
+    <h1 class="hero-title">Find your<br><em>perfect escape</em></h1>
+    <p class="hero-sub">Handpicked hotels, resorts, and retreats — from clifftop villas to city sanctuaries.</p>
+    <div class="search-box">
+      <div class="search-field">
+        <label>Where to?</label>
+        <select>
+          <option>Paris, France</option>
+          <option>Maldives</option>
+          <option>Santorini, Greece</option>
+          <option>Bali, Indonesia</option>
+          <option>New York, USA</option>
+          <option>Tokyo, Japan</option>
+        </select>
+      </div>
+      <div class="search-field">
+        <label>Check in</label>
+        <input type="date" value="2026-07-10">
+      </div>
+      <div class="search-field">
+        <label>Check out</label>
+        <input type="date" value="2026-07-15">
+      </div>
+      <div class="search-field">
+        <label>Guests</label>
+        <select>
+          <option>1 adult</option>
+          <option>2 adults</option>
+          <option>2 adults, 1 child</option>
+          <option>2 adults, 2 children</option>
+        </select>
+      </div>
+      <button class="search-btn">Search</button>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="section-header">
+    <div>
+      <p class="section-eyebrow">Editor's selection</p>
+      <h2 class="section-title">Featured hotels</h2>
+      <p class="section-sub">Properties our team has personally visited and loved.</p>
+    </div>
+    <a class="link-more" href="#">View all hotels →</a>
+  </div>
+
+  <div class="filter-bar">
+    <button class="filter-btn active">All</button>
+    <button class="filter-btn">Beachfront</button>
+    <button class="filter-btn">City</button>
+    <button class="filter-btn">Mountain</button>
+    <button class="filter-btn">Overwater</button>
+    <button class="filter-btn">Boutique</button>
+  </div>
+
+  <div class="cards-grid">
+    <div class="hotel-card">
+      <div class="card-img">
+        <img src="https://images.unsplash.com/photo-1582719508461-905c673771fd?w=600&q=80" alt="Soneva Fushi">
+        <span class="card-badge gold">Best value</span>
+        <button class="card-fav">♡</button>
+      </div>
+      <div class="card-body">
+        <p class="card-location">📍 Maldives</p>
+        <h3 class="card-name">Soneva Fushi Resort</h3>
+        <div class="card-stars">★★★★★</div>
+        <div class="card-features">
+          <span class="tag">Overwater villa</span>
+          <span class="tag">Private beach</span>
+          <span class="tag">Spa</span>
+        </div>
+        <div class="card-footer">
+          <div class="card-price">
+            <div><span class="was">$980</span><span class="amount">$720</span></div>
+            <div class="per">per night · incl. breakfast</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;">
+            <div class="card-rating">
+              <span class="score">9.4</span>
+              <div class="reviews">312 reviews</div>
+            </div>
+            <button class="btn-book">Book now</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hotel-card">
+      <div class="card-img">
+        <img src="https://images.unsplash.com/photo-1455587734955-081b22074882?w=600&q=80" alt="Aman Paris">
+        <span class="card-badge">Sold fast</span>
+        <button class="card-fav">♡</button>
+      </div>
+      <div class="card-body">
+        <p class="card-location">📍 Paris, France</p>
+        <h3 class="card-name">Aman Paris</h3>
+        <div class="card-stars">★★★★★</div>
+        <div class="card-features">
+          <span class="tag">City centre</span>
+          <span class="tag">Michelin dining</span>
+          <span class="tag">Pool</span>
+        </div>
+        <div class="card-footer">
+          <div class="card-price">
+            <div><span class="amount">$1,240</span></div>
+            <div class="per">per night · room only</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;">
+            <div class="card-rating">
+              <span class="score">9.7</span>
+              <div class="reviews">487 reviews</div>
+            </div>
+            <button class="btn-book">Book now</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hotel-card">
+      <div class="card-img">
+        <img src="https://images.unsplash.com/photo-1602343168117-bb8ffe3e2e9f?w=600&q=80" alt="Santorini">
+        <span class="card-badge gold">New listing</span>
+        <button class="card-fav">♡</button>
+      </div>
+      <div class="card-body">
+        <p class="card-location">📍 Santorini, Greece</p>
+        <h3 class="card-name">Canaves Oia Epitome</h3>
+        <div class="card-stars">★★★★★</div>
+        <div class="card-features">
+          <span class="tag">Infinity pool</span>
+          <span class="tag">Cave suite</span>
+          <span class="tag">Sea views</span>
+        </div>
+        <div class="card-footer">
+          <div class="card-price">
+            <div><span class="was">$860</span><span class="amount">$640</span></div>
+            <div class="per">per night · incl. breakfast</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;">
+            <div class="card-rating">
+              <span class="score">9.2</span>
+              <div class="reviews">218 reviews</div>
+            </div>
+            <button class="btn-book">Book now</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hotel-card">
+      <div class="card-img">
+        <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&q=80" alt="Bali">
+        <button class="card-fav">♡</button>
+      </div>
+      <div class="card-body">
+        <p class="card-location">📍 Ubud, Bali</p>
+        <h3 class="card-name">Komaneka at Bisma</h3>
+        <div class="card-stars">★★★★★</div>
+        <div class="card-features">
+          <span class="tag">Jungle view</span>
+          <span class="tag">Yoga</span>
+          <span class="tag">Organic dining</span>
+        </div>
+        <div class="card-footer">
+          <div class="card-price">
+            <div><span class="amount">$390</span></div>
+            <div class="per">per night · incl. breakfast</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;">
+            <div class="card-rating">
+              <span class="score">9.5</span>
+              <div class="reviews">594 reviews</div>
+            </div>
+            <button class="btn-book">Book now</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hotel-card">
+      <div class="card-img">
+        <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=600&q=80" alt="New York">
+        <button class="card-fav">♡</button>
+      </div>
+      <div class="card-body">
+        <p class="card-location">📍 New York, USA</p>
+        <h3 class="card-name">The Peninsula New York</h3>
+        <div class="card-stars">★★★★★</div>
+        <div class="card-features">
+          <span class="tag">5th Avenue</span>
+          <span class="tag">Rooftop bar</span>
+          <span class="tag">Spa</span>
+        </div>
+        <div class="card-footer">
+          <div class="card-price">
+            <div><span class="was">$1,100</span><span class="amount">$840</span></div>
+            <div class="per">per night · room only</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;">
+            <div class="card-rating">
+              <span class="score">9.1</span>
+              <div class="reviews">1,024 reviews</div>
+            </div>
+            <button class="btn-book">Book now</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hotel-card">
+      <div class="card-img">
+        <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=600&q=80" alt="Tokyo">
+        <span class="card-badge">Member deal</span>
+        <button class="card-fav">♡</button>
+      </div>
+      <div class="card-body">
+        <p class="card-location">📍 Tokyo, Japan</p>
+        <h3 class="card-name">Aman Tokyo</h3>
+        <div class="card-stars">★★★★★</div>
+        <div class="card-features">
+          <span class="tag">Sky views</span>
+          <span class="tag">Onsen</span>
+          <span class="tag">Tea ceremony</span>
+        </div>
+        <div class="card-footer">
+          <div class="card-price">
+            <div><span class="amount">$980</span></div>
+            <div class="per">per night · incl. breakfast</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;">
+            <div class="card-rating">
+              <span class="score">9.8</span>
+              <div class="reviews">769 reviews</div>
+            </div>
+            <button class="btn-book">Book now</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0;">
+  <div class="section-header">
+    <div>
+      <p class="section-eyebrow">Where to next?</p>
+      <h2 class="section-title">Top destinations</h2>
+    </div>
+    <a class="link-more" href="#">Explore all →</a>
+  </div>
+  <div class="destinations-grid">
+    <div class="dest-card">
+      <img src="https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?w=800&q=80" alt="Venice">
+      <div class="dest-overlay">
+        <h3 class="dest-name">Venice</h3>
+        <p class="dest-count">38 properties</p>
+      </div>
+    </div>
+    <div class="dest-card">
+      <img src="https://images.unsplash.com/photo-1518684079-3c830dcef090?w=600&q=80" alt="Dubai">
+      <div class="dest-overlay">
+        <h3 class="dest-name">Dubai</h3>
+        <p class="dest-count">62 properties</p>
+      </div>
+    </div>
+    <div class="dest-card">
+      <img src="https://images.unsplash.com/photo-1530841377377-3ff06c0ca713?w=600&q=80" alt="Kyoto">
+      <div class="dest-overlay">
+        <h3 class="dest-name">Kyoto</h3>
+        <p class="dest-count">24 properties</p>
+      </div>
+    </div>
+    <div class="dest-card">
+      <img src="https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=600&q=80" alt="Amalfi">
+      <div class="dest-overlay">
+        <h3 class="dest-name">Amalfi Coast</h3>
+        <p class="dest-count">19 properties</p>
+      </div>
+    </div>
+    <div class="dest-card">
+      <img src="https://images.unsplash.com/photo-1491557345352-5929e343eb89?w=600&q=80" alt="Maldives">
+      <div class="dest-overlay">
+        <h3 class="dest-name">Maldives</h3>
+        <p class="dest-count">41 properties</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="amenities">
+  <div class="amenities-inner">
+    <div class="amenity">
+      <div class="amenity-icon">✈️</div>
+      <p class="amenity-label">Airport transfers</p>
+      <p class="amenity-desc">Complimentary on stays of 3+ nights at select properties</p>
+    </div>
+    <div class="amenity">
+      <div class="amenity-icon">🛡️</div>
+      <p class="amenity-label">Free cancellation</p>
+      <p class="amenity-desc">Cancel up to 48 hours before check-in, no charge</p>
+    </div>
+    <div class="amenity">
+      <div class="amenity-icon">🏆</div>
+      <p class="amenity-label">Best price guarantee</p>
+      <p class="amenity-desc">Find it cheaper elsewhere and we'll match it, plus 10% off</p>
+    </div>
+    <div class="amenity">
+      <div class="amenity-icon">🎁</div>
+      <p class="amenity-label">Loyalty rewards</p>
+      <p class="amenity-desc">Earn points every stay — redeem for free nights and upgrades</p>
+    </div>
+  </div>
+</div>
+
+<section class="testimonial-section" style="max-width:100%;">
+  <div style="max-width:1280px;margin:0 auto;padding:80px 40px;">
+    <div class="section-header">
+      <div>
+        <p class="section-eyebrow">Guest stories</p>
+        <h2 class="section-title">What travellers say</h2>
+      </div>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="t-stars">★★★★★</div>
+        <p class="t-quote">"The villa had its own infinity pool facing the ocean. I've stayed at hotels for 30 years — this was another level."</p>
+        <div class="t-author">
+          <img class="t-avatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&q=80" alt="Sarah M.">
+          <div>
+            <p class="t-name">Sarah M.</p>
+            <p class="t-sub">Stayed at Soneva Fushi · Maldives</p>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="t-stars">★★★★★</div>
+        <p class="t-quote">"Lumière found us an upgrade without us asking. Our favourite wine was chilled in the room on arrival. Truly magical."</p>
+        <div class="t-author">
+          <img class="t-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&q=80" alt="James R.">
+          <div>
+            <p class="t-name">James R.</p>
+            <p class="t-sub">Stayed at Aman Paris · France</p>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="t-stars">★★★★★</div>
+        <p class="t-quote">"Booking was effortless, the price was unmatched, and the hotel exceeded every expectation. Will never book any other way."</p>
+        <div class="t-author">
+          <img class="t-avatar" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&q=80" alt="Priya K.">
+          <div>
+            <p class="t-name">Priya K.</p>
+            <p class="t-sub">Stayed at Canaves Oia · Santorini</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="newsletter">
+    <p class="section-eyebrow">Stay in the loop</p>
+    <h2 class="section-title">Secret deals, first</h2>
+    <p>Members get early access to flash sales, upgrades, and curated itineraries.</p>
+    <div class="nl-form">
+      <input type="email" placeholder="your@email.com">
+      <button type="button">Subscribe</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a class="nav-logo" href="#" style="display:block;margin-bottom:14px;font-size:28px;color:white;">Lumi<span style="color:var(--gold)">è</span>re</a>
+      <p>Curating the world's finest hotels since 2014. Every property is personally reviewed by our travel editors.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <a href="#">Hotels</a>
+      <a href="#">Villas</a>
+      <a href="#">Resorts</a>
+      <a href="#">City breaks</a>
+      <a href="#">Honeymoons</a>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <a href="#">About us</a>
+      <a href="#">Careers</a>
+      <a href="#">Press</a>
+      <a href="#">Partners</a>
+      <a href="#">Blog</a>
+    </div>
+    <div class="footer-col">
+      <h4>Support</h4>
+      <a href="#">Help centre</a>
+      <a href="#">Cancellation</a>
+      <a href="#">Contact us</a>
+      <a href="#">Privacy policy</a>
+      <a href="#">Terms of use</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Lumière Hotels. All rights reserved.</span>
+    <span>🌍 English (USD) &nbsp; 🔒 Secure checkout</span>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+
+  document.querySelectorAll('.card-fav').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      btn.textContent = btn.textContent === '♡' ? '♥' : '♡';
+      btn.style.color = btn.textContent === '♥' ? '#E24B4A' : '';
+    });
+  });
+
+  document.querySelectorAll('.btn-book').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      const name = btn.closest('.hotel-card').querySelector('.card-name').textContent;
+      alert('Booking: ' + name + '\n\nIn a real site this opens the booking flow!');
+    });
+  });
+</script>
+</body>
+</html>
